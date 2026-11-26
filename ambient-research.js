@@ -168,8 +168,7 @@ document.querySelector('#ending').innerHTML = headingScreen('Заключени�
 const formatBibliography = label => label
   .replace(/\. URL: /, '. — URL: ')
   .replace(/\. (\d{4})\. — URL:/, '. — $1. — URL:')
-  .replace(/\. (\d{2}\.\d{2}\.\d{4})\. — URL:/, '. — $1. — URL:')
-  .replace(/^(?!.*\[Звукозапись\])(.+?)(\s*\/\/)/, '$1 [Электронный ресурс]$2');
+  .replace(/\. (\d{2}\.\d{2}\.\d{4})\. — URL:/, '. — $1. — URL:');
 document.querySelector('#bibliography').innerHTML = headingScreen('Библиография') + `<div class="screen sources-panel"><ol>${bibliography.map(([label,url],i)=>`<li id="ref-${i+1}">${formatBibliography(label).replace(url,`<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`)}</li>`).join('')}</ol></div>`;
 document.querySelector('#image-sources').innerHTML = headingScreen('Источники изображений') + `<div class="screen sources-panel"><ol>${imageSources.map(s=>`<li>${s.replace(/https:\/\/[^ ]+/,url=>`<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`)}</li>`).join('')}</ol></div>`;
 // Типографируем только видимый текст: адреса, атрибуты и встроенные плееры остаются нетронутыми.
