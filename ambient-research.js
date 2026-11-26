@@ -152,15 +152,30 @@ const audioScreen = audio => {
 };
 const imageScreen = image => `<figure class="screen game-image"><img src="${image.src}" alt="${image.caption}" loading="lazy"><figcaption>${image.caption}${image.license ? ' · ' + image.license : ''}</figcaption></figure>`;
 
-document.querySelector('#concept').innerHTML = headingScreen('Концепция') + concept.map(textScreen).join('');
-document.querySelector('#rubric-list').innerHTML = chapters.map((c,i)=>`<li><span>${String(i+1).padStart(2,'0')}</span>${c.title}</li>`).join('');
+const sectionHeadings = {
+  'concept': 'Концепция',
+  'ending': 'Заключение',
+  'bibliography': 'Библиография',
+  'image-sources': 'Источники изображений',
+};
+const chapterHeading = chapter => `${chapter.title} — ${headingArtists[chapter.title] || chapter.composer}`;
+const rubricHeadings = [
+  sectionHeadings.concept,
+  ...chapters.map(chapterHeading),
+  sectionHeadings.ending,
+  sectionHeadings.bibliography,
+  sectionHeadings['image-sources'],
+];
+
+document.querySelector('#concept').innerHTML = headingScreen(sectionHeadings['concept']) + concept.map(textScreen).join('');
+document.querySelector('#rubric-list').innerHTML = rubricHeadings.map((title,i)=>`<li><span>${String(i+1).padStart(2,'0')}</span>${title}</li>`).join('');
 const soundcloudExample = `<figure class="screen soundcloud-test"><iframe title="SoundCloud — лоу-фай ремикс Subwoofer Lullaby" loading="lazy" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fprodjuicyjules%2Fsubwoofer-lullaby-lofi&amp;color=%23ff5500&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=false&amp;visual=true"></iframe><figcaption>Дополнительный пример переработки: <a href="https://soundcloud.com/prodjuicyjules/subwoofer-lullaby-lofi" target="_blank" rel="noopener noreferrer">Juicy Jules, лоу-фай ремикс «Subwoofer Lullaby»</a>. Это поздний ремикс, а не источник влияния на C418.</figcaption></figure>`;
 document.querySelector('#research').innerHTML = chapters.map((c,i)=>{
   const media = [c.image,...(additionalMedia[c.title]||[])].filter(Boolean);
   const external = comparisonAudio[c.title];
-  return `<article class="chapter" id="${c.title.toLowerCase().replace(/[^a-z0-9]+/g,'-')}">${headingScreen(`${c.title} — ${headingArtists[c.title]||c.composer}`)}${textScreen(c.texts[0])}${external?audioScreen(external):''}${textScreen(c.texts[1])}${audioScreen(c.title==='Death Stranding'?{...c.audio,note:'Low Roar выпустили эту песню до игры; позднее она стала частью её музыкального мира.'}:c.audio)}${media[0]?imageScreen(media[0]):''}${textScreen(c.texts[2])}${media.slice(1).map(imageScreen).join('')}${i===0?soundcloudExample:''}</article>`;
+  return `<article class="chapter" id="${c.title.toLowerCase().replace(/[^a-z0-9]+/g,'-')}">${headingScreen(chapterHeading(c))}${textScreen(c.texts[0])}${external?audioScreen(external):''}${textScreen(c.texts[1])}${audioScreen(c.title==='Death Stranding'?{...c.audio,note:'Low Roar выпустили эту песню до игры; позднее она стала частью её музыкального мира.'}:c.audio)}${media[0]?imageScreen(media[0]):''}${textScreen(c.texts[2])}${media.slice(1).map(imageScreen).join('')}${i===0?soundcloudExample:''}</article>`;
 }).join('');
-document.querySelector('#ending').innerHTML = headingScreen('Заключение') + [
+document.querySelector('#ending').innerHTML = headingScreen(sectionHeadings['ending']) + [
   `Сопоставление десяти игр показало, что «игровой эмбиент» — не единый жанр. В «Minecraft» он строится на редких появлениях музыкальной композиции, в «Silent Hill 2» — на тревожном соседстве музыки и шума, в «No Man’s Sky» — на возможности бесконечного изменения материала. В каждом случае важно не только то, как звучит запись, но и когда игрок её встречает.`,
   `Наиболее доказательная линия влияния прослеживается там, где есть свидетельство самих музыкантов или документированная переработка прежней работы. C418, Ямаока и Пралоу называют свои ориентиры; Sea Power адаптируют собственный каталог. Сходство двух треков само по себе остаётся интерпретацией. Поэтому исследование различает подтверждённый источник, сопоставление музыкальных приёмов и использование готовой песни внутри игры.`,
   `Гипотеза подтвердилась частично. Игры действительно используют длительность, повтор, тембр и неполную фразу, знакомые современной экспериментальной музыке. Но интерактивная среда добавляет к ним новую переменную — действие слушателя. Игрок может задержать, прервать или заново открыть музыкальное событие. Именно поэтому игровой эмбиент способен не просто описывать место, а участвовать в его создании.`
@@ -169,8 +184,8 @@ const formatBibliography = label => label
   .replace(/\. URL: /, '. — URL: ')
   .replace(/\. (\d{4})\. — URL:/, '. — $1. — URL:')
   .replace(/\. (\d{2}\.\d{2}\.\d{4})\. — URL:/, '. — $1. — URL:');
-document.querySelector('#bibliography').innerHTML = headingScreen('Библиография') + `<div class="screen sources-panel"><ol>${bibliography.map(([label,url],i)=>`<li id="ref-${i+1}">${formatBibliography(label).replace(url,`<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`)}</li>`).join('')}</ol></div>`;
-document.querySelector('#image-sources').innerHTML = headingScreen('Источники изображений') + `<div class="screen sources-panel"><ol>${imageSources.map(s=>`<li>${s.replace(/https:\/\/[^ ]+/,url=>`<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`)}</li>`).join('')}</ol></div>`;
+document.querySelector('#bibliography').innerHTML = headingScreen(sectionHeadings['bibliography']) + `<div class="screen sources-panel"><ol>${bibliography.map(([label,url],i)=>`<li id="ref-${i+1}">${formatBibliography(label).replace(url,`<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`)}</li>`).join('')}</ol></div>`;
+document.querySelector('#image-sources').innerHTML = headingScreen(sectionHeadings['image-sources']) + `<div class="screen sources-panel"><ol>${imageSources.map(s=>`<li>${s.replace(/https:\/\/[^ ]+/,url=>`<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`)}</li>`).join('')}</ol></div>`;
 // Типографируем только видимый текст: адреса, атрибуты и встроенные плееры остаются нетронутыми.
 const typograph = value => value
   .replace(/(^|[\s(«])((?:[ВвКкСсУуОоАаИиЯя]|во|Во|на|На|по|По|за|За|из|Из|от|От|до|До|не|Не|но|Но|со|Со|об|Об|ко|Ко|ни|Ни)) +(?=[А-Яа-яЁёA-Za-z0-9«])/g, '$1$2\u00a0')
