@@ -9,7 +9,10 @@
     .screen{margin:0 0 17px}.large{background:#b84325;min-height:145px;padding:24px 55px;display:flex;align-items:center}.large h2{font-size:40px;line-height:1.08;margin:0;font-weight:700}.text-screen{background:#fff;color:#242424;min-height:220px;display:grid;grid-template-columns:1fr 1fr}.text-column{grid-column:2;padding:31px 32px 42px 0;font-size:16px;line-height:1.58;letter-spacing:-.008em}.text-column sup{font-size:11px;line-height:0}.text-column sup a{color:#b84325;text-decoration:none;font-weight:700}.text-column sup a:hover{text-decoration:underline}.rubric{background:#fff;color:#242424;min-height:220px;padding:31px 32px 42px 0;display:grid;grid-template-columns:1fr 1fr}.rubric ol{grid-column:2;margin:0;padding:0;list-style:none;font-size:16px;line-height:1.58}.rubric li{padding:0 0 8px 0;display:grid;grid-template-columns:34px 1fr;gap:8px}.rubric li span{color:#777}.chapter{margin-top:38px}.chapter-meta{font-size:12px;color:#aaa;margin:-6px 0 17px;text-align:right}.music-embed{width:min(100%,525px);margin:28px 0 17px}.music-embed iframe{display:block;width:100%;height:152px;border:0}.music-video{width:100%}.music-video iframe{height:auto;aspect-ratio:16/9}.music-embed figcaption,.game-image figcaption{color:#aaa;font-size:12px;line-height:1.5;margin-top:8px}.music-embed a{color:inherit}.game-image{margin:0 0 17px}.game-image img{display:block;width:100%;height:auto;max-height:550px;object-fit:contain;background:#0b0b0b}.game-image figcaption{text-align:center}.sources-panel{background:#fff;color:#222;padding:45px 34px 55px;min-height:220px;font-size:14px;line-height:1.5}.sources-panel ol{margin:0 0 0 auto;padding-left:1.5em;width:58%}.sources-panel li{padding:0 0 14px 7px;overflow-wrap:anywhere}.sources-panel a{color:#222}.footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #333;margin-top:28px;padding:20px 0;color:#aaa;font-size:13px}.footer a{color:inherit}.soundcloud-test{margin:28px 0 17px}.soundcloud-test iframe{display:block;width:100%;height:220px;border:0}.soundcloud-test figcaption{font-size:12px;color:#aaa;margin-top:8px}.soundcloud-test a{color:inherit}
     .music-context{color:#ddd;font-size:13px;line-height:1.45;margin:0 0 9px;max-width:525px}
     @media(max-width:700px){.page{width:calc(100% - 24px)}.cover{grid-template-columns:1fr;gap:10px;padding-bottom:45px}.cover-art{max-height:70vh}.cover h1{margin:25px 0}.tag{font-size:12px}.large{padding:24px 30px}.large h2{font-size:34px}.rubric,.text-screen{grid-template-columns:1fr}.rubric{padding:25px}.rubric ol,.text-column{grid-column:1}.text-column{padding:25px;font-size:15px}.sources-panel ol{width:100%}.sources-panel{padding:28px}}
-  </style>
+      .text-editor-tools{position:fixed;top:12px;left:12px;z-index:10;display:flex;align-items:flex-start;flex-direction:column;gap:4px;max-width:calc(100vw - 24px)}
+    #save-status:not(:empty){display:block;background:#252525;color:#fff;border-radius:4px;padding:4px 8px;font:12px/1.35 Arial,sans-serif}#save-status[data-saved="true"]{color:#e4ffea;background:#225c39;border:1px solid #43865a}
+    [contenteditable]:focus{outline:2px solid #cf714f;outline-offset:3px}
+  .cover-collage{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.cover-collage img{aspect-ratio:1;object-fit:contain}</style>
 </head>
 <body>
   <main class="page">
@@ -26,8 +29,13 @@
     <div id="image-sources"></div>
     <footer class="footer"><a href="#bibliography">Источники</a><span>Экранов: <b id="screen-count">0</b></span></footer>
   </main>
-  <script src="ambient-research.js?v=3"></script>
+  <script src="ambient-research.js?v=4"></script>
+  <div class="text-editor-tools">
+    <span id="save-status" role="status"></span>
+  </div>
+  <script src="text-editor.js?v=5"></script>
 </body>
 </html>
+
 
 
